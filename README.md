@@ -2,7 +2,7 @@
 ## Google CapStone Project
 
 About
-To analyze smart device usage data in order to gain insight into how consumers use non-Bellabeat smart devices. Then select one Bellabeat product to apply these insights.
+To analyze smart device usage data in order to gain insight into how consumers use non-Bellabeat smart devices. Then select one Bellabeat product to apply these insights. Dataset can be found [here](https://www.kaggle.com/arashnic/fitbit)
 
 
 Q.1) What business tasks need to be accomplished?
@@ -27,3 +27,5 @@ Ans – 3) The dataset for each feature was in a separate .csv file, where the d
 
 •	The positive correlations between significant variables above shows that people in the dataset are fit & Bellabeat users are performing activities on daily basis to keep themselves healthy.
 
+# Visualization - 
+After cleaning the data-set, the visualizations have been performed in Tableau and visualizations can be found [here](https://public.tableau.com/app/profile/heem.joshi/viz/BellaBeatUserActivity/BellaBeatUserActivity)
