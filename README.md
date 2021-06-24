@@ -1,7 +1,4 @@
 # BellaBeat-UserActivity
-## Google CapStone Project
-
-![BellaBeat](/assets/BellBeat.png)
 
 About - 
 
@@ -31,4 +28,7 @@ Ans – 3) The dataset for each feature was in a separate .csv file, where the d
 •	The positive correlations between significant variables above shows that people in the dataset are fit & Bellabeat users are performing activities on daily basis to keep themselves healthy.
 
 # Visualization - 
+
+![BellaBeat](/assets/ScatterPlot.png)
+
 After cleaning the dataset, the visualizations have been performed in Tableau and visualizations can be found [here](https://public.tableau.com/app/profile/heem.joshi/viz/BellaBeatUserActivity/BellaBeatUserActivity)
