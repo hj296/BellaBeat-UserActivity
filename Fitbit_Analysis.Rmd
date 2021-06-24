@@ -1,0 +1,202 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library("lubridate")
+library("tidyverse")
+library("ggplot2")
+library("dplyr")
+```
+
+
+```{r}
+#Cleaning hourly_intensity
+
+#Clean - First we see how many unique Id's we have, if the number of unique ID matches the number of of our Original Data, we clean the current csv so that we can merge this data with our original dataset i.e. daily activity
+
+hourlyIntensities_merged<-read_csv("hourlyIntensities_merged.csv")
+list_of_unique_values = unique(hourlyIntensities_merged$Id)
+
+
+#df1_intensity$ActivityHour <-as.Date(hourlyIntensities_merged$ActivityHour) 
+
+hourlyIntensities_merged$ActivityHour <- format(as.Date(hourlyIntensities_merged$ActivityHour,"%m/%d/%Y"), format = "%m/%d/%Y")
+
+
+daily_intensity <- hourlyIntensities_merged %>%
+         group_by(Id,ActivityHour) %>% 
+         summarise_each(funs(sum))
+
+daily_intensity <- rename(daily_intensity,Daily_Total_Intensity = TotalIntensity)
+daily_intensity <- rename(daily_intensity,Avg_daily_Intensity = AverageIntensity)
+
+
+remove(hourlyIntensities_merged)
+
+write.csv(daily_intensity,file = '~/Desktop/modified_intensity.csv')
+
+
+```
+
+```{r}
+#Combining daily_Activity
+
+'''
+
+activity_intensity <- merge(data.frame(dailyActivity_merged, row.names=NULL), data.frame(daily_intensity, row.names=NULL), 
+  by = 0, all = TRUE)[-1]
+
+activity_intensity <- activity_intensity %>% select(-c(ActivityHour))
+activity_intensity <- activity_intensity %>% select(-c(Id.y))
+
+activity_intensity <- rename(activity_intensity,Id = Id.x)
+
+#Combining daily_Activity & heart_rate - 
+activity_heart <- merge(data.frame(dailyActivity_merged, row.names=NULL), data.frame(daily_heartrate, row.names=NULL), 
+  by = 0, all = TRUE)[-1]
+
+'''
+
+
+
+```
+
+
+```{r}
+#Checking Daily Activity
+
+dailyActivity_merged <- read_csv("dailyActivity_merged.csv")
+
+sum(is.null(dailyActivity_merged))
+sum(is.null(daily_intensity))
+
+#if (any(is.na(daily_intensity[,colnames(daily_intensity)]))) {next} 
+
+#int <- intersect(daily_intensity$Id,dailyActivity_merged$Id)
+
+#remove(hourlyIntensities_merged)
+#colnames(daily_intensity)
+
+
+#install.packages(c('tibble', 'readr'))
+library(tibble)
+library(readr)
+
+#temp1 <- dailyActivity_merged
+#temp1 <- dailyActivity_merged %>% 
+#mutate(C = if_else(temp1$Id == daily_intensity$Id && temp1$ActivityDate == #daily_intensity$ActivityDate, daily_intensity$TotalIntensity, NULL))
+
+#temp1$Total_Intensity <- daily_intensity$TotalIntensity
+
+#install.packages("prodlim")
+#library(prodlim)
+#row.match(daily_intensity$Id,dailyActivity_merged$Id)
+
+#combined_data <- merge(data.frame(dailyActivity_merged, row.names=NULL), data.frame(daily_intensity, row.names=NULL), by = 0, all = TRUE)[-1]
+
+#combined_data <- combined_data %>% select(-c(ActivityHour))
+#combined_data <- combined_data %>% select(-c(Id.y))
+
+#combined_data <- rename(combined_data,Id = Id.x)
+
+n_distinct(combined_data$Id)
+
+#write.csv(combined_data,file = '~/Desktop/all_df.csv')
+  
+  
+
+```
+
+
+
+```{r}
+#Cleaning "heartrate_seconds_merged "
+heartrate_seconds_merged <- read_csv("heartrate_seconds_merged.csv")
+list_of_unique_values = unique(heartrate_seconds_merged$Id)
+
+heartrate_seconds_merged$Time <- format(as.Date(heartrate_seconds_merged$Time,"%m/%d/%Y"), format = "%m/%d/%Y")
+
+
+daily_heartrate<-heartrate_seconds_merged%>%
+         group_by(Id,Time) %>% 
+         summarise_each(funs(sum))
+
+daily_heartrate <- rename(daily_heartrate,ActivityDate = Time)
+daily_heartrate <- rename(daily_heartrate,Avg_daily_heartrate = Value)
+
+remove(heartrate_seconds_merged)
+
+write.csv(daily_heartrate,file = '~/Desktop/modified_heart_rate.csv')
+
+
+```
+
+
+```{r}
+#Cleaning minuteCaloriesNarrow_merged
+
+#Checking minuteMETsNarrow_merged
+#Note: - A MET is a ratio of your working metabolic rate relative to your resting metabolic rate. Metabolic rate is the rate of energy expended per unit of time. It’s one way to describe the intensity of an exercise or activity.
+
+
+minuteMETsNarrow_merged <- read_csv("minuteMETsNarrow_merged.csv")
+list_of_unique_values = unique(minuteMETsNarrow_merged$Id)
+
+length(list_of_unique_values)
+
+minuteMETsNarrow_merged$ActivityMinute <- format(as.Date(minuteMETsNarrow_merged$ActivityMinute,"%m/%d/%Y"), format = "%m/%d/%Y")
+
+
+daily_METs<-minuteMETsNarrow_merged%>%
+         group_by(Id,ActivityMinute) %>% 
+         summarise_each(funs(mean))
+
+#daily_METs_sum<-minuteMETsNarrow_merged%>%
+#        group_by(Id,ActivityMinute) %>% 
+#         summarise_each(funs(sum))
+
+#daily_METs$METs <- daily_METs$METs/24
+
+remove(minuteMETsNarrow_merged)
+
+daily_METs <- rename(daily_METs,ActivityDate = ActivityMinute)
+daily_METs <- rename(daily_METs,Avg_hourly_METs = METs)
+
+write.csv(daily_METs,file = '~/Desktop/modified_METs_rate.csv')
+
+
+```
+
+
+```{r}
+#Checking minuteMETsNarrow_merged - 
+
+minuteMETsNarrow_merged$ActivityMinute <- format(as.Date(minuteMETsNarrow_merged$ActivityMinute,"%m/%d/%Y"), format = "%m/%d/%Y")
+
+
+daily_METs<-minuteMETsNarrow_merged%>%
+         group_by(Id,ActivityMinute) %>% 
+         summarise_each(funs(mean))
+
+remove(minuteMETsNarrow_merged)
+
+daily_METs <- rename(daily_METs,ActivityDate = ActivityMinute)
+daily_METs <- rename(daily_METs,Avg_daily_METs = METs)
+
+write.csv(daily_METs,file = '~/Desktop/modified_METs_rate.csv')
+
+```
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
