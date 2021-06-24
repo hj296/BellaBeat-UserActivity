@@ -3,7 +3,8 @@
 
 ![BellaBeat](/assets/BellBeat.png)
 
-About
+About - 
+
 To analyze smart device usage data in order to gain insight into how consumers use non-Bellabeat smart devices. Then select one Bellabeat product to apply these insights. Dataset can be found [here](https://www.kaggle.com/arashnic/fitbit)
 
 
