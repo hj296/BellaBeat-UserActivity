@@ -20,7 +20,10 @@ Ans – 3) The dataset for each feature was in a separate .csv file, where the d
 
 ## Summary of Analysis
 •	Strong positive correlation between Daily MET’s & Daily Total Intensity, showing that people in the dataset are participating in intensive activities.
+
 •	Trend Analysis between calories burned & distance covered by users which shows a strong positive correlation & a linear relationship between calories burned by users & distance covered by users.
+
 •	String positive correlation between Daily Total Intensity & Daily Calories burned by users.
+
 •	The positive correlations between significant variables above shows that people in the dataset are fit & Bellabeat users are performing activities on daily basis to keep themselves healthy.
 
